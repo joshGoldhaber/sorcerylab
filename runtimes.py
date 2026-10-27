@@ -20,6 +20,10 @@ if __name__ == '__main__':
     parser.add_argument('--input', choices=['sorted', 'random'], default='random')
     args = parser.parse_args()
 
+    # print the markdown table header (runtimes are in seconds)
+    print('| len(xs) | timsort (s) | merge_sorted (s) | quick_sorted (s) |')
+    print('|---|---|---|---|')
+
     # perform the runtime tests
     for x in range(0, args.max_x+1):
 
@@ -36,10 +40,7 @@ if __name__ == '__main__':
             # and whenever the input list is sorted, timsort will run in time Theta(n) instead of Theta(n log n)
             #
             # your specific task is to make xs be a list of all numbers between 0 and 2**x
-            xs = FIXME
-
-            # HINT:
-            # use the range and list functions
+            xs = list(range(2**x))
 
         # calculate the runtimes
         runtimes = {}
@@ -48,15 +49,9 @@ if __name__ == '__main__':
         runtimes['quick_sorted'] = timeit.timeit(lambda: quick_sorted(xs), number=1)
 
 
-        # display the runtimes
-        # FIXME 1:
-        # Modify the print statement below so that a nice looking markdown table is printed.
-        # All runtimes should be displayed in seconds using scientific notation and three significant figures.
-        # You will have to look up how to do this formatting.
-        # In order to get a proper markdown table,
-        # you will have to also print a header line somewhere else.
-        print(f'len(xs)=2**{x} runtimes={runtimes}')
-
-        # HINT:
-        # use f-strings and a print statement that looks something like
-        # print(f"| {runtimes['timsort']:0.2e} ")
+        # display the runtimes as one row of a markdown table
+        # (':0.2e' means scientific notation with 3 significant figures, e.g. 1.23e-04)
+        print(f"| 2**{x} "
+              f"| {runtimes['timsort']:0.2e} "
+              f"| {runtimes['merge_sorted']:0.2e} "
+              f"| {runtimes['quick_sorted']:0.2e} |")
